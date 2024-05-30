@@ -9,6 +9,8 @@ const productsRoutes = require('./routes/products.routes');
 
 app.use(morgan('dev'));
 
+app.use(express.json());
+
 app.use(productsRoutes)
 
 app.listen(3000, () => {
