@@ -44,11 +44,43 @@ const createProduct = async (req, res) => {
 }
 
 const deleteProduct = async (req, res) => {
-  res.send('Deleting a product');
+  try {
+    const { id } = req.params;
+    await prisma.product.delete({
+      where: {
+        id: parseInt(id)
+      }
+    });
+    res.json({ message: 'Product deleted' });
+  } catch (error) {
+    res.status(500).json({ error: 'Algo esta mal...' });
+  }
 }
 
 const updateProduct = async (req, res) => {
-  res.send('Updating a product');
+  try {
+    const { id } = req.params;
+    const { name, image_url, price, category } = req.body;
+    const updatedProduct = await prisma.product.update({
+      where: {
+        id: parseInt(id)
+      },
+      data: {
+        name,
+        price,
+        image_url,
+        category: {
+          connect: {
+            id: category
+          }
+        }
+      }
+    });
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ error: 'Algo esta mal...' });
+  }
+
 }
 
 module.exports = {

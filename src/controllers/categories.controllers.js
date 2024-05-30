@@ -26,7 +26,22 @@ const createCategory = async (req, res) => {
     }
 }
 
+const deleteCategory = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await prisma.category.delete({
+            where: {
+                id: parseInt(id)
+            }
+        });
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ error: 'Error al eliminar la categoría', message: error.message });
+    }
+}
+
 module.exports = {
     createCategory,
-    getAllCategories
+    getAllCategories,
+    deleteCategory,
 }
