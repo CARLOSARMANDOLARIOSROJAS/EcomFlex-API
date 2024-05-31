@@ -24,22 +24,24 @@ const getSingleProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, image_url, price, category } = req.body;
+    const { name, price, categoryId } = req.body;
+    const image_url = req.file ? `/uploads/${req.file.filename}` : null;
     const newProduct = await prisma.product.create({
       data: {
         name,
-        price,
+        price: parseFloat(price),
         image_url,
         category: {
           connect: {
-            id: category
+            id: parseInt(categoryId)
           }
         }
       }
     });
     res.json(newProduct);
   } catch (error) {
-    res.status(500).json({ error: 'Algo esta mal...' });
+    console.log(error);
+    res.status(500).json({ error });
   }
 }
 

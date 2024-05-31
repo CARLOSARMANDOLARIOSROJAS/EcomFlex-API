@@ -3,16 +3,30 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
-
-
+const multer = require('multer');
 const morgan = require('morgan');
-
+const path = require('path');
 app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true,
 }));
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './uploads');
+    },
+    filename: (req, file ,cb) => {
+        cb(null , Date.now() + path.extname (file.originalname));
+    }
+})
+
+const upload = multer({ storage });
+
 
 app.use(bodyParser.json());
 
@@ -20,9 +34,14 @@ const productsRoutes = require('./routes/products.routes.js');
 const categoriesRoutes = require('./routes/categories.routes.js');
 const usersRoutes = require('./routes/users.routes.js');
 
-app.use('/api', productsRoutes);
+app.use('/uploads', express.static('uploads'));
+
 app.use('/api', categoriesRoutes);
 app.use('/api/auth', usersRoutes);
+app.use('/api/', upload.single('image_url'), (req, res, next) => {
+    console.log('File uploaded successfully');
+    next();
+}, productsRoutes);
 
 
 app.use(express.json());
