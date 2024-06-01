@@ -12,10 +12,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const { FRONTEND_URL } = require('./config.js');
 
-app.use(cors({
+const corsOptions = {
     origin: FRONTEND_URL,
     credentials: true,
-}));
+    optionssuccessStatus: 200,
+}
+app.use(cors(corsOptions));
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
