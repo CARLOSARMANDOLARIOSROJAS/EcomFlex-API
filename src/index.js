@@ -46,6 +46,10 @@ app.use('/api/', upload.single('image_url'), (req, res, next) => {
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the EcommFlex API!');
+});
+
 app.use((req, res, next) => {
     res.status(404).send('Error 404: Página no encontrada');
 });
