@@ -57,6 +57,8 @@ app.use((req, res, next) => {
     res.status(404).send('Error 404: Página no encontrada');
 });
 
+const PORT = process.env.PORT || 3000;
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000, welcome to the EcommFlex API!');
 }); 
