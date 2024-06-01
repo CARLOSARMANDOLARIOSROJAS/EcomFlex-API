@@ -41,7 +41,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.use('/api', categoriesRoutes);
 app.use('/api/auth', usersRoutes);
-app.use('/api/', upload.single('image_url'), (req, res, next) => {
+app.use('/api', upload.single('image_url'), (req, res, next) => {
     console.log('File uploaded successfully');
     next();
 }, productsRoutes);
