@@ -2,12 +2,9 @@
 const { Router } = require('express');
 const {
     getAllProducts,
-    getSingleProduct,
     createProduct,
     deleteProduct,
     updateProduct,
-    getProductByCategory,
-    getProductsByCategory,
     countProductsByCategory
 } = require('../controllers/products.controllers');
 

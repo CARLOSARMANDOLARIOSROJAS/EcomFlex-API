@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -11,8 +10,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const { FRONTEND_URL } = require('./config.js');
+
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: FRONTEND_URL,
     credentials: true,
 }));
 
