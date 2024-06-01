@@ -5,19 +5,22 @@ const {
     getSingleProduct,
     createProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    getProductByCategory,
+    getProductsByCategory,
+    countProductsByCategory
 } = require('../controllers/products.controllers');
 
 const router = Router();
 
 router.get('/products', getAllProducts);
 
-router.get('/products/:id', getSingleProduct);
 
 router.post('/products', createProduct);
 
 router.delete('/products/:id', deleteProduct);
 
+router.get('/products/by-category', countProductsByCategory);
 router.put('/products', updateProduct);
 
 module.exports = router;

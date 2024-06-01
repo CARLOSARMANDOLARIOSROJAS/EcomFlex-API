@@ -40,8 +40,27 @@ const deleteCategory = async (req, res) => {
     }
 }
 
+const getCategoryById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const category = await prisma.category.findUnique({
+            where: {
+                id: parseInt(id)
+            }
+        });
+        res.json(category);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener la categoría', message: error.message });
+    }
+
+}
+
+
+  
+
 module.exports = {
     createCategory,
     getAllCategories,
     deleteCategory,
+    getCategoryById,
 }

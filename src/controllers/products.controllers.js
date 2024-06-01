@@ -85,10 +85,26 @@ const updateProduct = async (req, res) => {
 
 }
 
+const countProductsByCategory = async (req, res) => {
+  try {
+    const productsByCategory = await prisma.product.groupBy({
+      by: ['categoryId'],
+      _count: {
+        name: true
+      }
+    });
+
+    res.json(productsByCategory);
+  } catch (error) {
+    res.status(500).json({ error: 'Algo salió mal al contar los productos por categoría.' });
+  }
+};
+
 module.exports = {
   getAllProducts,
   getSingleProduct,
   createProduct,
   deleteProduct,
-  updateProduct
+  updateProduct,
+  countProductsByCategory
 }
