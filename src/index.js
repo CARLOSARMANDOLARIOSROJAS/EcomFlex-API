@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const { FRONTEND_URL } = require('./config.js');
 
 const corsOptions = {
-    origin: FRONTEND_URL,
+    origin: '*',
     credentials: true,
     optionssuccessStatus: 200,
 }
