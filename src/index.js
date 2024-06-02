@@ -21,7 +21,7 @@ app.use(cors(corsOptions));
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './uploads');
+        cb(null, '../uploads');
     },
     filename: (req, file ,cb) => {
         cb(null , Date.now() + path.extname (file.originalname));
@@ -41,7 +41,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.use('/api', categoriesRoutes);
 app.use('/api/auth', usersRoutes);
-app.use('/api', upload.single('image_url'), (req, res, next) => {
+app.use('/api/', upload.single('image_url'), (req, res, next) => {
     console.log('File uploaded successfully');
     next();
 }, productsRoutes);
