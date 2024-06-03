@@ -33,13 +33,12 @@ const createProduct = async (req, res) => {
     const { name, price, categoryId } = req.body;
     let image_url;
 
-    if (req.file) {
-      // Subir imagen a Cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path);
-
-      // Obtener la URL de la imagen subida a Cloudinary
+    if (req.file && req.file.path) {
+      const result = await cloudinary.uploader.upload(req.file.path, { folder: 'products' });
       image_url = result.secure_url;
+      
     }
+      // Subir imagen a Cloudinary
 
     // Crear el nuevo producto en la base de datos
     const newProduct = await prisma.product.create({
@@ -60,7 +59,7 @@ const createProduct = async (req, res) => {
   } catch (error) {
     // Manejar errores
     console.error('Error creating product:', error);
-    res.status(500).json({ error: 'Error creating product' });
+    res.status(500).json({ error: 'Error creating product', detailedError: error});
   }
 }
 
