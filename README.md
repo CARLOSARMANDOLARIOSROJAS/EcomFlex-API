@@ -48,7 +48,13 @@ Puedes ver la API desplegada en Render.com: [EcomFlex API en Render](https://eco
 
     Asegúrate de actualizar el valor de `DATABASE_URL` con la URL de tu base de datos PostgreSQL.
 
-4. Ejecutar el servidor:
+4. Crear base de datos en PostgreSQL
+   Crea una base de datos llamada productsdb con tu usuario y password, para después usarla en tu .env. Plantilla de ejemplo:
+   ```bash
+   DATABASE_URL="postgresql://user:password@localhost:5432/productsdb"
+   ```
+
+6. Ejecutar el servidor:
 
     ```bash
     npm run dev
