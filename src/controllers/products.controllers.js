@@ -2,7 +2,7 @@
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-
+const cloudinary = require('../../cloudinary.js');
 
 
 const getAllProducts = async (req, res) => {
@@ -25,7 +25,17 @@ const getSingleProduct = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const { name, price, categoryId } = req.body;
-    const image_url = req.file ? `/uploads/${req.file.filename}` : null;
+    let image_url;
+
+    if (req.file) {
+      // Subir imagen a Cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path);
+
+      // Obtener la URL de la imagen subida a Cloudinary
+      image_url = result.secure_url;
+    }
+
+    // Crear el nuevo producto en la base de datos
     const newProduct = await prisma.product.create({
       data: {
         name,
@@ -38,10 +48,13 @@ const createProduct = async (req, res) => {
         }
       }
     });
+
+    // Enviar la respuesta con el nuevo producto creado
     res.json(newProduct);
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error });
+    // Manejar errores
+    console.error('Error creating product:', error);
+    res.status(500).json({ error: 'Error creating product' });
   }
 }
 
